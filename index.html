@@ -415,37 +415,38 @@
             width: 100%;
             height: 100%;
             position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 10px;
         }
 
-        .chart-line {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 80%;
-            background: linear-gradient(to top, rgba(0, 255, 136, 0.3), transparent);
-            transition: all 2s ease;
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(to top, #00ff88, #00ccff);
+            margin: 0 5px;
+            border-radius: 3px 3px 0 0;
+            position: relative;
+            transition: all 0.5s ease;
+            animation: chartAnimation 2s ease-in-out infinite alternate;
         }
 
-        .live-line {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: rgba(255, 255, 255, 0.7);
-            animation: liveLineMove 3s linear infinite;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
+        .chart-bar:nth-child(1) { height: 60%; animation-delay: 0s; }
+        .chart-bar:nth-child(2) { height: 80%; animation-delay: 0.2s; }
+        .chart-bar:nth-child(3) { height: 45%; animation-delay: 0.4s; }
+        .chart-bar:nth-child(4) { height: 90%; animation-delay: 0.6s; }
+        .chart-bar:nth-child(5) { height: 70%; animation-delay: 0.8s; }
+        .chart-bar:nth-child(6) { height: 55%; animation-delay: 1s; }
 
-        .chart-points {
+        .chart-labels {
             display: flex;
             justify-content: space-between;
             padding: 0 15px;
             position: absolute;
-            bottom: 10px;
+            bottom: -25px;
             width: 100%;
         }
 
-        .chart-point {
+        .chart-label {
             font-size: 12px;
             color: #a0a0ff;
         }
@@ -520,17 +521,10 @@
             100% { transform: scale(1); }
         }
 
-        @keyframes liveLineMove {
-            0% { left: 0%; opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { left: 100%; opacity: 0; }
-        }
-
         @keyframes chartAnimation {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
+            0% { opacity: 0.7; transform: scaleY(1); }
+            50% { opacity: 1; transform: scaleY(1.1); }
+            100% { opacity: 0.7; transform: scaleY(1); }
         }
 
         @media (max-width: 1100px) {
@@ -607,7 +601,7 @@
                 
                 <div class="bank-balance">
                     <h3>ব্যাংক ব্যালেন্স</h3>
-                    <div class="balance-amount" id="balance-amount">50,236 <span class="currency">টাকা</span></div>
+                    <div class="balance-amount" id="balance-amount">51,236 <span class="currency">টাকা</span></div>
                     <p class="balance-note">বর্তমান ব্যালেন্স</p>
                 </div>
             </div>
@@ -649,16 +643,20 @@
                     </div>
                     <div class="market-chart">
                         <div class="chart-container">
-                            <div class="chart-line" id="market-chart"></div>
-                            <div class="live-line" id="live-line"></div>
-                            <div class="chart-points">
-                                <div class="chart-point">জানু</div>
-                                <div class="chart-point">ফেব্রু</div>
-                                <div class="chart-point">মার্চ</div>
-                                <div class="chart-point">এপ্রিল</div>
-                                <div class="chart-point">মে</div>
-                                <div class="chart-point">জুন</div>
-                            </div>
+                            <div class="chart-bar"></div>
+                            <div class="chart-bar"></div>
+                            <div class="chart-bar"></div>
+                            <div class="chart-bar"></div>
+                            <div class="chart-bar"></div>
+                            <div class="chart-bar"></div>
+                        </div>
+                        <div class="chart-labels">
+                            <div class="chart-label">জানু</div>
+                            <div class="chart-label">ফেব্রু</div>
+                            <div class="chart-label">মার্চ</div>
+                            <div class="chart-label">এপ্রিল</div>
+                            <div class="chart-label">মে</div>
+                            <div class="chart-label">জুন</div>
                         </div>
                     </div>
                     <div class="market-stats">
@@ -693,7 +691,7 @@
         // ব্যালেন্স সেটিংস - এখানে থেকে ব্যালেন্স চেঞ্জ করুন
         // =============================================
         const BALANCE_SETTINGS = {
-            currentBalance: 50236, // এখানে আপনার ইচ্ছামত ব্যালেন্স সেট করুন
+            currentBalance: 51236, // এখানে আপনার ইচ্ছামত ব্যালেন্স সেট করুন
             currency: "টাকা",
             autoUpdate: false // true করলে অটোমেটিক চেঞ্জ হবে, false করলে শুধু কোড থেকে চেঞ্জ হবে
         };
@@ -729,8 +727,7 @@
         const todayProfitElement = document.getElementById('today-profit');
         const totalProfitElement = document.getElementById('total-profit');
         const portfolioValueElement = document.getElementById('portfolio-value');
-        const marketChart = document.getElementById('market-chart');
-        const liveLine = document.getElementById('live-line');
+        const chartBars = document.querySelectorAll('.chart-bar');
 
         // এলিমেন্ট রেফারেন্স সেট করা
         balanceData.element = balanceElement;
@@ -809,40 +806,17 @@
 
         // চার্ট আপডেট ফাংশন
         function updateChart() {
-            // র্যান্ডম চার্ট প্যাটার্ন তৈরি করা
-            const points = [];
-            for (let i = 0; i <= 100; i += 10) {
-                points.push(Math.random() * 80 + 20);
-            }
-            
-            // চার্ট প্যাথ তৈরি করা
-            const path = `polygon(0% 100%, ${points.map((point, index) => {
-                return `${index * 10}% ${100 - point}%`;
-            }).join(', ')}, 100% 100%)`;
-            
-            // চার্ট আপডেট
-            marketChart.style.clipPath = path;
-            
-            // চার্ট কালার আপডেট
-            const isPositive = marketData.todayProfit >= 0;
-            marketChart.style.background = isPositive 
-                ? 'linear-gradient(to top, rgba(0, 255, 136, 0.3), transparent)' 
-                : 'linear-gradient(to top, rgba(255, 51, 102, 0.3), transparent)';
-        }
-
-        // লাইভ লাইন এনিমেশন
-        function animateLiveLine() {
-            // লাইভ লাইন পজিশন রিসেট
-            liveLine.style.left = '0%';
-            
-            // প্রতি 3 সেকেন্ডে লাইভ লাইন এনিমেশন
-            setInterval(() => {
-                liveLine.style.left = '0%';
-                setTimeout(() => {
-                    liveLine.style.transition = 'left 3s linear';
-                    liveLine.style.left = '100%';
-                }, 100);
-            }, 3000);
+            // চার্ট বারগুলোর উচ্চতা র্যান্ডমলি আপডেট
+            chartBars.forEach(bar => {
+                const newHeight = Math.random() * 60 + 30;
+                bar.style.height = `${newHeight}%`;
+                
+                // র্যান্ডম কালার গ্রেডিয়েন্ট
+                const isPositive = Math.random() > 0.3;
+                bar.style.background = isPositive 
+                    ? 'linear-gradient(to top, #00ff88, #00ccff)'
+                    : 'linear-gradient(to top, #ff3366, #ff0080)';
+            });
         }
 
         // ইনিশিয়ালাইজেশন
@@ -851,17 +825,17 @@
             displayBalance();
             
             // ব্যালেন্স কাউন্টার এফেক্ট (ঐচ্ছিক)
-            let displayBalance = 0;
+            let displayBalanceValue = 0;
             const targetBalance = balanceData.current;
             const increment = targetBalance / 50;
             
             const balanceCounter = setInterval(() => {
-                displayBalance += increment;
-                if (displayBalance >= targetBalance) {
-                    displayBalance = targetBalance;
+                displayBalanceValue += increment;
+                if (displayBalanceValue >= targetBalance) {
+                    displayBalanceValue = targetBalance;
                     clearInterval(balanceCounter);
                 }
-                balanceElement.innerHTML = Math.floor(displayBalance).toLocaleString() + ' <span class="currency">' + BALANCE_SETTINGS.currency + '</span>';
+                balanceElement.innerHTML = Math.floor(displayBalanceValue).toLocaleString() + ' <span class="currency">' + BALANCE_SETTINGS.currency + '</span>';
             }, 30);
             
             // ক্রিপ্টো কার্ডে হোভার এফেক্ট
@@ -895,22 +869,11 @@
             // ইনিশিয়াল চার্ট সেটআপ
             updateChart();
 
-            // লাইভ লাইন এনিমেশন শুরু
-            animateLiveLine();
-
             // শুধুমাত্র মার্কেট ডেটা আপডেট (ব্যালেন্স নয়)
             setInterval(updateMarket, 3000);
 
-            // =============================================
-            // ব্যালেন্স ম্যানুয়ালি আপডেট করার উদাহরণ:
-            // নিচের লাইনগুলি আনকমেন্ট করে ব্যালেন্স চেঞ্জ করতে পারেন
-            // =============================================
-            
-            // 5 সেকেন্ড পর ব্যালেন্স চেঞ্জ করার উদাহরণ:
-            // setTimeout(() => updateBalance(75000), 5000);
-            
-            // 10 সেকেন্ড পর আরেকটি ব্যালেন্স চেঞ্জ:
-            // setTimeout(() => updateBalance(120000), 10000);
+            // প্রতি 5 সেকেন্ডে চার্ট আপডেট
+            setInterval(updateChart, 5000);
         });
 
         // =============================================
