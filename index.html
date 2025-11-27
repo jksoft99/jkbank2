@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আন্তর্জাতিক ব্যাংক একাউন্ট</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(28, 58, 173, 0.2) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(200, 30, 100, 0.15) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(0, 50, 150, 0.1) 0%, transparent 50%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1300px;
+            background: rgba(10, 10, 15, 0.9);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(100, 80, 255, 0.3);
+            border: 1px solid rgba(80, 100, 255, 0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #ff0080, #00ccff, #ff0080);
+            z-index: 2;
+        }
+
+        .header {
+            background: linear-gradient(135deg, rgba(15, 20, 40, 0.9), rgba(5, 10, 25, 0.9));
+            padding: 40px;
+            text-align: center;
+            border-bottom: 1px solid rgba(80, 100, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(100, 80, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 128, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .header h1 {
+            font-size: 52px;
+            background: linear-gradient(90deg, #ff0080, #00ccff, #ffcc00, #00ff88, #ff0080);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            letter-spacing: 3px;
+            font-weight: 800;
+            animation: gradientShift 8s ease infinite;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #a0a0ff;
+            letter-spacing: 1px;
+        }
+
+        .content {
+            display: flex;
+            padding: 40px;
+            gap: 40px;
+        }
+
+        .left-section {
+            flex: 1;
+            padding: 30px;
+            background: rgba(15, 20, 40, 0.7);
+            border-radius: 20px;
+            border: 1px solid rgba(80, 100, 255, 0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(80, 100, 255, 0.2);
+        }
+
+        .profile-img {
+            width: 180px;
+            height: 220px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 30px;
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .profile-img::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff0080, #00ccff, #ffcc00);
+            border-radius: 17px;
+            z-index: -1;
+        }
+
+        .profile-img-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f3460, #1a1a2e);
+            border-radius: 12px;
+            color: #b8c1ec;
+            font-size: 16px;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .profile-img-content i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #a0a0ff;
+        }
+
+        .profile-details {
+            flex: 1;
+        }
+
+        .profile-details h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #ffcc00, #ff6600);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(255, 204, 0, 0.3);
+        }
+
+        .detail-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .detail-item i {
+            width: 30px;
+            color: #00ccff;
+            font-size: 18px;
+        }
+
+        .detail-item span {
+            color: #b8c1ec;
+            font-size: 18px;
+        }
+
+        .detail-item strong {
+            color: #ffcc00;
+            margin-right: 8px;
+        }
+
+        .bank-balance {
+            background: linear-gradient(135deg, rgba(20, 25, 50, 0.8), rgba(10, 15, 35, 0.8));
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 30px;
+            border: 1px solid rgba(80, 100, 255, 0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bank-balance::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(0, 204, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(255, 204, 0, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .bank-balance h3 {
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: #a0a0ff;
+            letter-spacing: 1px;
+        }
+
+        .balance-amount {
+            font-size: 64px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #00ff88, #00ccff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+            margin: 20px 0;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .currency {
+            font-size: 24px;
+            color: #ffcc00;
+            font-weight: 600;
+        }
+
+        .balance-note {
+            font-size: 18px;
+            color: #a0a0ff;
+            margin-top: 10px;
+        }
+
+        .right-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .bonus-section {
+            background: linear-gradient(135deg, rgba(20, 25, 50, 0.8), rgba(10, 15, 35, 0.8));
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(80, 100, 255, 0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bonus-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 204, 255, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .section-header h3 {
+            font-size: 26px;
+            background: linear-gradient(90deg, #ff0080, #a0a0ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .section-header i {
+            font-size: 28px;
+            color: #ffcc00;
+        }
+
+        .crypto-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .crypto-card {
+            background: rgba(15, 20, 40, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(80, 100, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .crypto-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(80, 100, 255, 0.1), transparent);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .crypto-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(100, 80, 255, 0.3);
+            border-color: rgba(100, 80, 255, 0.5);
+        }
+
+        .crypto-card:hover::before {
+            opacity: 1;
+        }
+
+        .crypto-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #00ccff;
+        }
+
+        .crypto-name {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #b8c1ec;
+        }
+
+        .crypto-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff88;
+            transition: all 0.5s ease;
+        }
+
+        .value-up {
+            color: #00ff88;
+            animation: pulseGreen 1s ease;
+        }
+
+        .value-down {
+            color: #ff3366;
+            animation: pulseRed 1s ease;
+        }
+
+        .market-section {
+            background: linear-gradient(135deg, rgba(20, 25, 50, 0.8), rgba(10, 15, 35, 0.8));
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(80, 100, 255, 0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .market-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 70%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(255, 204, 0, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .market-chart {
+            height: 200px;
+            background: rgba(10, 15, 30, 0.7);
+            border-radius: 15px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(80, 100, 255, 0.2);
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .chart-line {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 80%;
+            background: linear-gradient(to top, rgba(0, 255, 136, 0.3), transparent);
+            transition: all 2s ease;
+        }
+
+        .live-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.7);
+            animation: liveLineMove 3s linear infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .chart-points {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 15px;
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+        }
+
+        .chart-point {
+            font-size: 12px;
+            color: #a0a0ff;
+        }
+
+        .market-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: rgba(15, 20, 40, 0.7);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(80, 100, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: rgba(0, 204, 255, 0.5);
+        }
+
+        .stat-name {
+            font-size: 14px;
+            color: #a0a0ff;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00ff88;
+            transition: all 0.5s ease;
+        }
+
+        .negative {
+            color: #ff3366;
+        }
+
+        .positive {
+            color: #00ff88;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, rgba(15, 20, 40, 0.9), rgba(5, 10, 25, 0.9));
+            padding: 25px;
+            text-align: center;
+            border-top: 1px solid rgba(80, 100, 255, 0.3);
+            color: #a0a0ff;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulseGreen {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes pulseRed {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes liveLineMove {
+            0% { left: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { left: 100%; opacity: 0; }
+        }
+
+        @keyframes chartAnimation {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        @media (max-width: 1100px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .left-section, .right-section {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .profile {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-img {
+                margin-right: 0;
+                margin-bottom: 25px;
+            }
+            
+            .crypto-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 36px;
+            }
+            
+            .balance-amount {
+                font-size: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>আন্তর্জাতিক ব্যাংক একাউন্ট</h1>
+            <p>প্রিমিয়াম ব্যাংকিং এক্সপেরিয়েন্স</p>
+        </div>
+        
+        <div class="content">
+            <div class="left-section">
+                <div class="profile">
+                    <div class="profile-img">
+                        <div class="profile-img-content">
+                            <i class="fas fa-passport"></i>
+                            পাসপোর্ট ছবি<br>JAMSHED KHAN
+                        </div>
+                    </div>
+                    <div class="profile-details">
+                        <h2>JAMSHED KHAN</h2>
+                        <div class="detail-item">
+                            <i class="fas fa-globe-asia"></i>
+                            <span><strong>দেশ:</strong> বাংলাদেশ</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-plane"></i>
+                            <span><strong>গন্তব্য:</strong> সৌদি আরব</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-passport"></i>
+                            <span><strong>পাসপোর্ট নং:</strong> BD789456123</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-id-card"></i>
+                            <span><strong>একাউন্ট নং:</strong> 789456123012</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bank-balance">
+                    <h3>ব্যাংক ব্যালেন্স</h3>
+                    <div class="balance-amount" id="balance-amount">50,236 <span class="currency">টাকা</span></div>
+                    <p class="balance-note">বর্তমান ব্যালেন্স</p>
+                </div>
+            </div>
+            
+            <div class="right-section">
+                <div class="bonus-section">
+                    <div class="section-header">
+                        <h3>Dollar Price</h3>
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="crypto-grid">
+                        <div class="crypto-card">
+                            <div class="crypto-icon"><i class="fab fa-bitcoin"></i></div>
+                            <div class="crypto-name">বিটকয়েন (BTC)</div>
+                            <div class="crypto-value" id="btc-value">$42,156.78</div>
+                        </div>
+                        <div class="crypto-card">
+                            <div class="crypto-icon"><i class="fab fa-ethereum"></i></div>
+                            <div class="crypto-name">বিএনবি (BNB)</div>
+                            <div class="crypto-value" id="bnb-value">$312.45</div>
+                        </div>
+                        <div class="crypto-card">
+                            <div class="crypto-icon"><i class="fas fa-coins"></i></div>
+                            <div class="crypto-name">ইথেরিয়াম (ETH)</div>
+                            <div class="crypto-value" id="eth-value">$2,845.67</div>
+                        </div>
+                        <div class="crypto-card">
+                            <div class="crypto-icon"><i class="fab fa-bitcoin"></i></div>
+                            <div class="crypto-name">ডজকয়েন (DOGE)</div>
+                            <div class="crypto-value" id="doge-value">$0.0789</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="market-section">
+                    <div class="section-header">
+                        <h3>Share Market</h3>
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="market-chart">
+                        <div class="chart-container">
+                            <div class="chart-line" id="market-chart"></div>
+                            <div class="live-line" id="live-line"></div>
+                            <div class="chart-points">
+                                <div class="chart-point">জানু</div>
+                                <div class="chart-point">ফেব্রু</div>
+                                <div class="chart-point">মার্চ</div>
+                                <div class="chart-point">এপ্রিল</div>
+                                <div class="chart-point">মে</div>
+                                <div class="chart-point">জুন</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="market-stats">
+                        <div class="stat-card">
+                            <div class="stat-name">আজকের লাভ</div>
+                            <div class="stat-value" id="today-profit">+2.34%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-name">মোট বিনিয়োগ</div>
+                            <div class="stat-value">15,670 টাকা</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-name">মোট লাভ</div>
+                            <div class="stat-value" id="total-profit">3,450 টাকা</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-name">পোর্টফোলিও মূল্য</div>
+                            <div class="stat-value" id="portfolio-value">19,120 টাকা</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>আন্তর্জাতিক ব্যাংক একাউন্ট - সকল অধিকার সংরক্ষিত © ২০২৫</p>
+        </div>
+    </div>
+
+    <script>
+        // =============================================
+        // ব্যালেন্স সেটিংস - এখানে থেকে ব্যালেন্স চেঞ্জ করুন
+        // =============================================
+        const BALANCE_SETTINGS = {
+            currentBalance: 50236, // এখানে আপনার ইচ্ছামত ব্যালেন্স সেট করুন
+            currency: "টাকা",
+            autoUpdate: false // true করলে অটোমেটিক চেঞ্জ হবে, false করলে শুধু কোড থেকে চেঞ্জ হবে
+        };
+        // =============================================
+
+        // ক্রিপ্টোকারেন্সি ডেটা
+        const cryptoData = {
+            btc: { value: 42156.78, element: null },
+            bnb: { value: 312.45, element: null },
+            eth: { value: 2845.67, element: null },
+            doge: { value: 0.0789, element: null }
+        };
+
+        // মার্কেট ডেটা
+        let marketData = {
+            todayProfit: 2.34,
+            totalProfit: 3450,
+            portfolioValue: 19120
+        };
+
+        // ব্যালেন্স ডেটা
+        let balanceData = {
+            current: BALANCE_SETTINGS.currentBalance,
+            element: null
+        };
+
+        // এলিমেন্ট রেফারেন্স
+        const balanceElement = document.getElementById('balance-amount');
+        const btcElement = document.getElementById('btc-value');
+        const bnbElement = document.getElementById('bnb-value');
+        const ethElement = document.getElementById('eth-value');
+        const dogeElement = document.getElementById('doge-value');
+        const todayProfitElement = document.getElementById('today-profit');
+        const totalProfitElement = document.getElementById('total-profit');
+        const portfolioValueElement = document.getElementById('portfolio-value');
+        const marketChart = document.getElementById('market-chart');
+        const liveLine = document.getElementById('live-line');
+
+        // এলিমেন্ট রেফারেন্স সেট করা
+        balanceData.element = balanceElement;
+        cryptoData.btc.element = btcElement;
+        cryptoData.bnb.element = bnbElement;
+        cryptoData.eth.element = ethElement;
+        cryptoData.doge.element = dogeElement;
+
+        // ব্যালেন্স আপডেট ফাংশন (কোড থেকে কল করার জন্য)
+        function updateBalance(newBalance) {
+            if (newBalance !== undefined && newBalance !== null) {
+                balanceData.current = newBalance;
+            }
+            displayBalance();
+            
+            // এনিমেশন ইফেক্ট
+            balanceElement.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                balanceElement.style.transform = 'scale(1)';
+            }, 300);
+        }
+
+        // ব্যালেন্স ডিসপ্লে ফাংশন
+        function displayBalance() {
+            balanceElement.innerHTML = balanceData.current.toLocaleString() + ' <span class="currency">' + BALANCE_SETTINGS.currency + '</span>';
+        }
+
+        // র্যান্ডম সংখ্যা জেনারেটর
+        function getRandomChange(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        // মার্কেট আপডেট ফাংশন
+        function updateMarket() {
+            // ক্রিপ্টোকারেন্সি মান আপডেট
+            Object.keys(cryptoData).forEach(key => {
+                const change = getRandomChange(-2, 2);
+                const previousValue = cryptoData[key].value;
+                cryptoData[key].value = previousValue * (1 + change / 100);
+                
+                // নতুন মান ফরম্যাট করা
+                const newValue = cryptoData[key].value.toFixed(2);
+                
+                // মান আপডেট এবং এনিমেশন যোগ করা
+                cryptoData[key].element.textContent = `$${newValue}`;
+                
+                if (change > 0) {
+                    cryptoData[key].element.classList.add('value-up');
+                    setTimeout(() => {
+                        cryptoData[key].element.classList.remove('value-up');
+                    }, 1000);
+                } else if (change < 0) {
+                    cryptoData[key].element.classList.add('value-down');
+                    setTimeout(() => {
+                        cryptoData[key].element.classList.remove('value-down');
+                    }, 1000);
+                }
+            });
+
+            // মার্কেট ডেটা আপডেট
+            const marketChange = getRandomChange(-1, 1);
+            marketData.todayProfit = (parseFloat(marketData.todayProfit) + marketChange).toFixed(2);
+            marketData.totalProfit = Math.max(0, marketData.totalProfit + (marketChange * 10));
+            marketData.portfolioValue = Math.max(0, marketData.portfolioValue + (marketChange * 50));
+
+            // মার্কেট ডেটা ডিসপ্লে আপডেট
+            todayProfitElement.textContent = `${marketData.todayProfit >= 0 ? '+' : ''}${marketData.todayProfit}%`;
+            todayProfitElement.className = `stat-value ${marketData.todayProfit >= 0 ? 'positive' : 'negative'}`;
+            
+            totalProfitElement.textContent = `${Math.round(marketData.totalProfit).toLocaleString()} টাকা`;
+            portfolioValueElement.textContent = `${Math.round(marketData.portfolioValue).toLocaleString()} টাকা`;
+
+            // চার্ট আপডেট
+            updateChart();
+        }
+
+        // চার্ট আপডেট ফাংশন
+        function updateChart() {
+            // র্যান্ডম চার্ট প্যাটার্ন তৈরি করা
+            const points = [];
+            for (let i = 0; i <= 100; i += 10) {
+                points.push(Math.random() * 80 + 20);
+            }
+            
+            // চার্ট প্যাথ তৈরি করা
+            const path = `polygon(0% 100%, ${points.map((point, index) => {
+                return `${index * 10}% ${100 - point}%`;
+            }).join(', ')}, 100% 100%)`;
+            
+            // চার্ট আপডেট
+            marketChart.style.clipPath = path;
+            
+            // চার্ট কালার আপডেট
+            const isPositive = marketData.todayProfit >= 0;
+            marketChart.style.background = isPositive 
+                ? 'linear-gradient(to top, rgba(0, 255, 136, 0.3), transparent)' 
+                : 'linear-gradient(to top, rgba(255, 51, 102, 0.3), transparent)';
+        }
+
+        // লাইভ লাইন এনিমেশন
+        function animateLiveLine() {
+            // লাইভ লাইন পজিশন রিসেট
+            liveLine.style.left = '0%';
+            
+            // প্রতি 3 সেকেন্ডে লাইভ লাইন এনিমেশন
+            setInterval(() => {
+                liveLine.style.left = '0%';
+                setTimeout(() => {
+                    liveLine.style.transition = 'left 3s linear';
+                    liveLine.style.left = '100%';
+                }, 100);
+            }, 3000);
+        }
+
+        // ইনিশিয়ালাইজেশন
+        document.addEventListener('DOMContentLoaded', function() {
+            // প্রারম্ভিক ব্যালেন্স ডিসপ্লে
+            displayBalance();
+            
+            // ব্যালেন্স কাউন্টার এফেক্ট (ঐচ্ছিক)
+            let displayBalance = 0;
+            const targetBalance = balanceData.current;
+            const increment = targetBalance / 50;
+            
+            const balanceCounter = setInterval(() => {
+                displayBalance += increment;
+                if (displayBalance >= targetBalance) {
+                    displayBalance = targetBalance;
+                    clearInterval(balanceCounter);
+                }
+                balanceElement.innerHTML = Math.floor(displayBalance).toLocaleString() + ' <span class="currency">' + BALANCE_SETTINGS.currency + '</span>';
+            }, 30);
+            
+            // ক্রিপ্টো কার্ডে হোভার এফেক্ট
+            const cryptoCards = document.querySelectorAll('.crypto-card');
+            cryptoCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                    this.style.boxShadow = '0 15px 30px rgba(100, 80, 255, 0.3)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+            
+            // মার্কেট স্ট্যাটস কার্ডে হোভার এফেক্ট
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+
+            // ইনিশিয়াল চার্ট সেটআপ
+            updateChart();
+
+            // লাইভ লাইন এনিমেশন শুরু
+            animateLiveLine();
+
+            // শুধুমাত্র মার্কেট ডেটা আপডেট (ব্যালেন্স নয়)
+            setInterval(updateMarket, 3000);
+
+            // =============================================
+            // ব্যালেন্স ম্যানুয়ালি আপডেট করার উদাহরণ:
+            // নিচের লাইনগুলি আনকমেন্ট করে ব্যালেন্স চেঞ্জ করতে পারেন
+            // =============================================
+            
+            // 5 সেকেন্ড পর ব্যালেন্স চেঞ্জ করার উদাহরণ:
+            // setTimeout(() => updateBalance(75000), 5000);
+            
+            // 10 সেকেন্ড পর আরেকটি ব্যালেন্স চেঞ্জ:
+            // setTimeout(() => updateBalance(120000), 10000);
+        });
+
+        // =============================================
+        // ব্যালেন্স ম্যানুয়ালি আপডেট করার ফাংশন
+        // কনসোলে এই ফাংশন কল করে ব্যালেন্স চেঞ্জ করতে পারেন:
+        // changeBalance(100000) // 1,00,000 টাকা সেট করবে
+        // =============================================
+        function changeBalance(newBalance) {
+            updateBalance(newBalance);
+        }
+    </script>
+</body>
+</html>
